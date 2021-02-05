@@ -1,0 +1,21 @@
+import kotlin.collections.List;
+
+CREATE TABLE IF NOT EXISTS technologyEntity (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL UNIQUE,
+    description VARCHAR NOT NULL,
+    keywords VARCHAR AS List<String> NOT NULL
+);
+
+insert:
+INSERT INTO technologyEntity(name, description, keywords)
+VALUES (?, ?, ?);
+
+selectAll:
+SELECT *
+FROM technologyEntity;
+
+selectByName:
+SELECT *
+FROM technologyEntity
+WHERE name = ?;
