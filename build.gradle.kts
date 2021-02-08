@@ -8,6 +8,7 @@ plugins {
 	id("org.springframework.boot") version Version.springBoot apply false
 	id("org.jlleitschuh.gradle.ktlint") version Version.ktlint apply false
 	id("com.squareup.sqldelight") version Version.sqlDelight apply false
+  id("org.flywaydb.flyway") version Version.flyway apply false
 }
 
 allprojects {

@@ -32,7 +32,7 @@ interface TechnologyAlgebra {
       private fun saveReturnQuery(element: PostBodyTechnology): Query<TechnologyEntity> =
         technologyQuery(
           """
-          |INSERT INTO technologyEntity(name, description, keywords)
+          |INSERT INTO technologyEntity(name, description, tags)
           |VALUES (?, ?, ?)
           |RETURNING *
           """.trimMargin(),
@@ -41,7 +41,7 @@ interface TechnologyAlgebra {
           element.run {
             bindString(1, name)
             bindString(2, description)
-            bindString(3, stringListAdapter.encode(keywords))
+            bindString(3, stringListAdapter.encode(tags))
           }
         }
 

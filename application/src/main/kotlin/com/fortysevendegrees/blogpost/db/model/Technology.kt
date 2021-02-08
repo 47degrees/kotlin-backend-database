@@ -14,14 +14,14 @@ data class Technology(
   val id: Int,
   val name: String,
   val description: String,
-  val keywords: List<String>
+  val tags: List<String>
 )
 
 @JsonSerializable
 data class PostBodyTechnology(
   val name: String,
   val description: String,
-  val keywords: List<String>
+  val tags: List<String>
 )
 
 fun PostBodyTechnology.validate(): Validated<ResponseEntity<ApiError>, PostBodyTechnology> =
@@ -31,4 +31,4 @@ fun PostBodyTechnology.validate(): Validated<ResponseEntity<ApiError>, PostBodyT
   }
 
 fun TechnologyEntity.toDomain(): Technology =
-  Technology(id, name, description, keywords)
+  Technology(id, name, description, tags)

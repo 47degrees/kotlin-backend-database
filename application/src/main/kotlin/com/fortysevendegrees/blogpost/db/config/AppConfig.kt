@@ -10,6 +10,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.sqldelight.ColumnAdapter
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.asJdbcDriver
+import org.flywaydb.core.Flyway
 import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
@@ -32,9 +33,15 @@ class AppConfig : WebMvcConfigurer {
       }.build()
 
   @Bean
-  fun provideJdbcDriver(dataSource: DataSource): SqlDriver =
+  fun provideFlyway(dataSource: DataSource): Flyway =
+    Flyway.configure()
+      .baselineOnMigrate(true)
+      .dataSource(dataSource).load()
+
+  @Bean
+  fun provideSqlDriver(dataSource: DataSource, flyway: Flyway): SqlDriver =
     dataSource.asJdbcDriver().apply {
-      BlogpostDb.Schema.create(this)
+      flyway.migrate()
     }
 
   @Bean
@@ -57,8 +64,8 @@ class AppConfig : WebMvcConfigurer {
     )
 
   @Bean
-  fun provideTechnologyKeywordAdapter(keywords: ColumnAdapter<List<String>, String>): TechnologyEntity.Adapter =
-    TechnologyEntity.Adapter(keywords)
+  fun provideTechnologyKeywordAdapter(tags: ColumnAdapter<List<String>, String>): TechnologyEntity.Adapter =
+    TechnologyEntity.Adapter(tags)
 
   @Bean
   fun provideMoshi(): Moshi = Moshi.Builder()

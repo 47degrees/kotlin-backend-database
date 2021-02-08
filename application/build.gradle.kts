@@ -52,6 +52,9 @@ dependencies {
   // Postgresql
   runtimeOnly(Libs.postgresql)
 
+  // Flyway
+  implementation(Libs.flywayCore)
+
   // Type-safe Config
   implementation(Libs.hoplite)
 
