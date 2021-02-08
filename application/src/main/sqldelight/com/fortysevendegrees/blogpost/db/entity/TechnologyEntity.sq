@@ -4,11 +4,11 @@ CREATE TABLE IF NOT EXISTS technologyEntity (
     id SERIAL PRIMARY KEY,
     name VARCHAR NOT NULL UNIQUE,
     description VARCHAR NOT NULL,
-    keywords VARCHAR AS List<String> NOT NULL
+    tags VARCHAR AS List<String> NOT NULL
 );
 
 insert:
-INSERT INTO technologyEntity(name, description, keywords)
+INSERT INTO technologyEntity(name, description, tags)
 VALUES (?, ?, ?);
 
 selectAll:

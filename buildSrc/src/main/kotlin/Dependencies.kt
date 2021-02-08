@@ -9,6 +9,7 @@ object Version {
   const val ktlint = "9.4.1"
   const val hoplite = "1.3.9"
   const val sqlDelight = "1.4.4"
+  const val flyway = "7.4.0"
 }
 
 object Libs {
@@ -21,6 +22,7 @@ object Libs {
 
   const val sqlDelightJdbcDriver = "com.squareup.sqldelight:jdbc-driver:${Version.sqlDelight}"
   const val postgresql = "org.postgresql:postgresql"
+  const val flywayCore = "org.flywaydb:flyway-core"
 
   const val kotlinJdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
   const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect"
