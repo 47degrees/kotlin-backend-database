@@ -28,8 +28,7 @@ class TechnologyController(
       technology.validate().fold(
         { it },
         {
-          technologyAlgebra.save(it)
-          technologyAlgebra.findByNameOrNull(it.name)?.let { savedTechnology: Technology ->
+          technologyAlgebra.save(it)?.let { savedTechnology: Technology ->
             ResponseEntity
               .created(URI("${request.requestURL}${savedTechnology.id}"))
               .body(savedTechnology)

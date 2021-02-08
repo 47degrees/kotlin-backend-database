@@ -8,6 +8,7 @@ import com.sksamuel.hoplite.ConfigLoader
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.sqldelight.ColumnAdapter
+import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.asJdbcDriver
 import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.context.annotation.Bean
@@ -31,20 +32,22 @@ class AppConfig : WebMvcConfigurer {
       }.build()
 
   @Bean
-  fun provideDatabase(
-    dataSource: DataSource,
-    techAdapter: TechnologyEntity.Adapter
-  ): BlogpostDb =
-    BlogpostDb(
-      driver = dataSource.asJdbcDriver().apply {
-        BlogpostDb.Schema.create(this)
-      },
-      technologyEntityAdapter = techAdapter
-    )
+  fun provideJdbcDriver(dataSource: DataSource): SqlDriver =
+    dataSource.asJdbcDriver().apply {
+      BlogpostDb.Schema.create(this)
+    }
 
   @Bean
-  fun provideTechnologyAlgebra(database: BlogpostDb): TechnologyAlgebra =
-    TechnologyAlgebra.invoke(database)
+  fun provideDatabase(driver: SqlDriver, techAdapter: TechnologyEntity.Adapter): BlogpostDb =
+    BlogpostDb(driver, techAdapter)
+
+  @Bean
+  fun provideTechnologyAlgebra(
+    database: BlogpostDb,
+    driver: SqlDriver,
+    stringListAdapter: ColumnAdapter<List<String>, String>
+  ): TechnologyAlgebra =
+    TechnologyAlgebra.invoke(database, driver, stringListAdapter)
 
   @Bean
   fun provideStringListColumnAdapter(): ColumnAdapter<List<String>, String> =
