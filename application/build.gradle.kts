@@ -1,32 +1,9 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
   idea
   kotlin("kapt")
   kotlin("plugin.spring")
   kotlin("plugin.allopen")
   id("org.springframework.boot")
-  id("com.squareup.sqldelight")
-}
-
-sqldelight {
-  database("BlogpostDb") {
-    // Package name used for the generated BlogpostDb.kt
-    packageName = "com.fortysevendegrees.blogpost.db"
-    dialect = "postgresql"
-  }
-}
-
-// Generates database interface at compile-time
-tasks.withType<KotlinCompile> {
-  dependsOn("generateMainBlogpostDbInterface")
-}
-
-// Do not check ktlint for SqlDelight generated code
-ktlint {
-  filter {
-    exclude { projectDir.toURI().relativize(it.file.toURI()).path.contains("/generated/") }
-  }
 }
 
 dependencies {
@@ -46,8 +23,10 @@ dependencies {
   // Arrow
   implementation(Libs.arrowFxCoroutines)
 
-  // SqlDelight
-  implementation(Libs.sqlDelightJdbcDriver)
+  // Exposed
+  implementation(Libs.exposedCore)
+  implementation(Libs.exposedDao)
+  implementation(Libs.exposedJdbc)
 
   // Postgresql
   runtimeOnly(Libs.postgresql)

@@ -8,7 +8,7 @@ object Version {
   const val kotlinx = "1.4.2"
   const val ktlint = "9.4.1"
   const val hoplite = "1.3.9"
-  const val sqlDelight = "1.4.4"
+  const val exposed = "0.29.1"
 }
 
 object Libs {
@@ -19,7 +19,9 @@ object Libs {
   const val springBootConfigurationProcessor =
     "org.springframework.boot:spring-boot-configuration-processor:${Version.springBoot}"
 
-  const val sqlDelightJdbcDriver = "com.squareup.sqldelight:jdbc-driver:${Version.sqlDelight}"
+  const val exposedCore = "org.jetbrains.exposed:exposed-core:${Version.exposed}"
+  const val exposedDao = "org.jetbrains.exposed:exposed-dao:${Version.exposed}"
+  const val exposedJdbc = "org.jetbrains.exposed:exposed-jdbc:${Version.exposed}"
   const val postgresql = "org.postgresql:postgresql"
 
   const val kotlinJdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8"

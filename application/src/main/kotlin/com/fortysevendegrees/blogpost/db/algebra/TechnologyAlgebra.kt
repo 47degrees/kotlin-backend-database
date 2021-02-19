@@ -1,33 +1,32 @@
 package com.fortysevendegrees.blogpost.db.algebra
 
-import com.fortysevendegrees.blogpost.db.BlogpostDb
-import com.fortysevendegrees.blogpost.db.entity.TechnologyEntity
 import com.fortysevendegrees.blogpost.db.model.PostBodyTechnology
 import com.fortysevendegrees.blogpost.db.model.Technology
+import com.fortysevendegrees.blogpost.db.model.TechnologyEntity
 import com.fortysevendegrees.blogpost.db.model.toDomain
+import org.jetbrains.exposed.sql.transactions.transaction
+import org.springframework.stereotype.Component
 
 interface TechnologyAlgebra {
 
-  suspend fun save(element: PostBodyTechnology): Unit
-
-  suspend fun findByNameOrNull(name: String): Technology?
+  suspend fun save(element: PostBodyTechnology): Technology
 
   suspend fun findAll(): List<Technology>
 
-  companion object {
-    operator fun invoke(database: BlogpostDb) = object : TechnologyAlgebra {
-      override suspend fun save(element: PostBodyTechnology): Unit =
-        database.technologyEntityQueries.insert(
-          name = element.name,
-          description = element.description,
+  @Component
+  companion object : TechnologyAlgebra {
+    override suspend fun save(element: PostBodyTechnology): Technology =
+      transaction {
+        TechnologyEntity.new {
+          name = element.name
+          description = element.description
           keywords = element.keywords
-        )
+        }.toDomain()
+      }
 
-      override suspend fun findByNameOrNull(name: String): Technology? =
-        database.technologyEntityQueries.selectByName(name).executeAsOneOrNull()?.toDomain()
-
-      override suspend fun findAll(): List<Technology> =
-        database.technologyEntityQueries.selectAll().executeAsList().map(TechnologyEntity::toDomain)
-    }
+    override suspend fun findAll(): List<Technology> =
+      transaction {
+        TechnologyEntity.all().map { it.toDomain() }
+      }
   }
 }
