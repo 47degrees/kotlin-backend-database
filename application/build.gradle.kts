@@ -20,6 +20,27 @@ dependencies {
   implementation(Libs.springBootStarterValidation)
   implementation(Libs.springBootStarterJdbc)
 
+  // Arrow
+  implementation(Libs.arrowFxCoroutines)
+
+  // Exposed
+  implementation(Libs.exposedCore)
+  implementation(Libs.exposedDao)
+  implementation(Libs.exposedJdbc)
+
+  // Postgresql
+  runtimeOnly(Libs.postgresql)
+
+  // Type-safe Config
+  implementation(Libs.hoplite)
+
+  // Moshi + Kotshi
+  implementation(Libs.moshiKotlin)
+  kapt(Libs.moshiKotlinCodegen)
+  implementation(Libs.moshiAdapters)
+  implementation(Libs.kotshiApi)
+  kapt(Libs.kotshiCompiler)
+
   testImplementation(Libs.springBootStarterTest) {
     exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     exclude(module = "junit")

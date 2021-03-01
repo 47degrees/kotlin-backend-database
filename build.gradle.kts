@@ -24,13 +24,6 @@ allprojects {
     maven(url = "https://oss.jfrog.org/artifactory/oss-snapshot-local/") // for SNAPSHOT builds
   }
 
-  dependencies {
-    implementation(Libs.arrowFxCoroutines)
-    testImplementation(Libs.kotestRunner)
-    testImplementation(Libs.kotestAssertions)
-    testImplementation(Libs.kotestProperty)
-  }
-
   tasks.withType<KotlinCompile> {
     kotlinOptions {
       freeCompilerArgs = listOf("-Xjsr305=strict")
