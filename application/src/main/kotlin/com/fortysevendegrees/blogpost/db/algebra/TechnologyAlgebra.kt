@@ -4,6 +4,7 @@ import com.fortysevendegrees.blogpost.db.model.PostBodyTechnology
 import com.fortysevendegrees.blogpost.db.model.Technology
 import com.fortysevendegrees.blogpost.db.model.TechnologyEntity
 import com.fortysevendegrees.blogpost.db.model.toDomain
+import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.springframework.stereotype.Component
 
@@ -16,7 +17,7 @@ interface TechnologyAlgebra {
   @Component
   companion object : TechnologyAlgebra {
     override suspend fun save(element: PostBodyTechnology): Technology =
-      newSuspendedTransaction {
+      newSuspendedTransaction(Dispatchers.IO) {
         TechnologyEntity.new {
           name = element.name
           description = element.description
@@ -25,7 +26,7 @@ interface TechnologyAlgebra {
       }
 
     override suspend fun findAll(): List<Technology> =
-      newSuspendedTransaction {
+      newSuspendedTransaction(Dispatchers.IO) {
         TechnologyEntity.all().map { it.toDomain() }
       }
   }
